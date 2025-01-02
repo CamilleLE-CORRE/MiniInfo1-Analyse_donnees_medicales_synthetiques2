@@ -56,7 +56,7 @@ int main(){
 
     // Test
     //float* tabAccuracyCouples = Test(PatientsData, tabResPerceptron, data_test, 1500);
-    explorationResultatsTest(meanAccuracy(10000, PatientsData, tabResPerceptron, data_test, 1500));
+    explorationResultatsTest(meanAccuracy(100, PatientsData, tabResPerceptron, data_test, 1500));
     // for (int i = 0; i < 21; i++) {
     //     printf("tabAccuracyCouples[%d] -> acc=%f\n", i, tabAccuracyCouples[i]);
     // }
