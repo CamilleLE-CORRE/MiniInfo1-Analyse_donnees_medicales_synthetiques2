@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "getData.h"
+#include "sampling.h"
 #include "perceptron.h"
 
 #define MAX_PATIENTS 5001
@@ -29,7 +30,7 @@ int main(){
     // }
 
     // Echantillonage : division des donnees en deux jeux de donnees disjoints (donnees d'entrainement et donnees de test)
-    Res res = echantillonage(5000, 0.7);    // mettre ensuite une varibale pour 0.7
+    ResSampling res = sampling(5000, 0.7);    // mettre ensuite une varibale pour 0.7
     int* data_train = res.tab1;
     int* data_test = res.tab2;
     
