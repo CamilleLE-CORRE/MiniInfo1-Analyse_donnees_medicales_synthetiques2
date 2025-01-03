@@ -1,10 +1,15 @@
 # MiniInfo1-Analyse_donnees_medicales_synthetiques
 
-● Lire les données des patients.
-● Stocker les données de façon structurée pour les rendre faciles à analyser.
+Ce fichier détaille les commandes à exécuter pour tester notre code.
+Le rapport se trouve dans le fichier pdf du dossier.
 
-● Utiliser l’IA pour prédire l’état de santé des patients en les classant comme “à
-risque” ou “non à risque”.
+Le projet a été réalisé en C et est composé de 9 fichiers :
+- main.c : fichier principal, il utilise les fonctions des autres fichiers
+- getData.c (et getData.h) : fonctions pour lire les fichiers patients.pengu et livestyle.pengu et stocker les données dans une structure de données
+- sampling.c (et sampling.h) : fonctions pour échantilloner les données (les patients) en deux jeux de données distincts (entraînement et test)
+- perceptron.c (et perceptron.h) : fonctions pour entraîner le perceptron, tester les données, calculer l'accuracy et afficher les résultats
+- k-means.c (et k-means.h) :
 
-● Identier, à l’aide de l’IA, les habitudes de vie qui augmentent les risques pour
-la santé des patients.
+Ainsi, pour tester le code, il suffit de télécharger ces fichiers puis exécuter les commandes suivantes dans un terminal :
+gcc main.c getData.c sampling.c perceptron.c k-means.c -o programme
+./programme
