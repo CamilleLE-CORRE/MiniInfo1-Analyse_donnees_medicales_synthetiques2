@@ -16,7 +16,7 @@ typedef struct ResTraining{
 } ResTraining;
 
 
-float CharToFloat(const char* str, size_t length, int c) {
+float CharToFloat(const char* str, size_t length, int c){
 
     /* Convertit un char* donne en entree en flottant.
         Pour les donnees quantitatives, la conversion est directe. En revanche, pour les donnees

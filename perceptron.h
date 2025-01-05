@@ -9,6 +9,8 @@ typedef struct ResTraining{
     float accuracy;
 } ResTraining;
 
+float CharToFloat(const char* str, size_t length, int c);
+int activation(float z);
 ResTraining perceptron(int c1, int c2, char* PatientsData[MAX_PATIENTS][MAX_FIELDS], int* data_train, int length_data_train);
 ResTraining* Training(char* PatientsData[MAX_PATIENTS][MAX_FIELDS], int* data_train, int length_data_train);
 float* Test(char* PatientsData[MAX_PATIENTS][MAX_FIELDS], ResTraining* tabResPerceptron, int* data_test, int length_data_test);

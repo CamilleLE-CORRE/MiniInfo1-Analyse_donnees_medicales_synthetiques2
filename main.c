@@ -4,6 +4,7 @@
 #include "getData.h"
 #include "sampling.h"
 #include "perceptron.h"
+#include "perceptronBonus.h"
 
 #define MAX_PATIENTS 5001
 #define MAX_FIELDS 20
@@ -47,15 +48,21 @@ int main(){
     //             i, tabResPerceptron[i].w1, tabResPerceptron[i].w2, tabResPerceptron[i].b, tabResPerceptron[i].accuracy);
     // }
 
-    // Test
+    //// TEST ////
     //float* tabAccuracyCouples = Test(PatientsData, tabResPerceptron, data_test, 1500);
-    explorationResultatsTest(meanAccuracy(100, PatientsData, tabResPerceptron, data_test, 1500));
+    //explorationResultatsTest(meanAccuracy(100, PatientsData, tabResPerceptron, data_test, 1500));
     // for (int i = 0; i < 21; i++) {
     //     printf("tabAccuracyCouples[%d] -> acc=%f\n", i, tabAccuracyCouples[i]);
     // }
 //     printf("Taille de tabAccuracyCouples : %lu éléments\n", sizeof(tabAccuracyCouples) / sizeof(tabAccuracyCouples[0]));
 
     //explorationResultatsTest(tabAccuracyCouples);
+
+    //// BONUS ////
+    ResTrainingBonus resPerceptronBonus = perceptronBonus(PatientsData, data_train, length_data_train);
+    printf("w1=%f ; w2=%f ; w3=%f ; w4=%f ; w5=%f ; w6=%f ; w7=%f\n", resPerceptronBonus.w1, resPerceptronBonus.w2, resPerceptronBonus.w3, resPerceptronBonus.w4, resPerceptronBonus.w5, resPerceptronBonus.w6, resPerceptronBonus.w7);
+    float accuracy = TestBonus(PatientsData, resPerceptronBonus, data_test, length_data_test);
+    printf("Accuracy perceptron a 7 dimensions : %f\n", accuracy);
 
 
     // Libération de la mémoire allouée
