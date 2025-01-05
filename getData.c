@@ -2,10 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int max_patients = 5001;
-int max_fields = 13;
-
-void BrowseFilePatients(char file_name[], char* PatientsData[max_patients][max_fields]) {
+void BrowseFilePatients(char file_name[], char* PatientsData[5001][13]) {
 
     /* Remplit le tableau PatientsData avec les donnees du fichier patients
      dont le nom ets passe en argument de la fonction */
@@ -24,13 +21,13 @@ void BrowseFilePatients(char file_name[], char* PatientsData[max_patients][max_f
     fgets(line, sizeof(line), file); // Lecture de la première ligne du fichier (nom des colonnes), qu'on ignore
 
     // Lire chaque ligne
-    while (fgets(line, sizeof(line), file) && i_line < max_patients) {
-        char* tokens[max_fields];
+    while (fgets(line, sizeof(line), file) && i_line < 5001) {
+        char* tokens[13];
         int field_index = 0;
 
         // Découper la ligne en tokens
         char *token = strtok(line, "$");
-        while (token != NULL && field_index < max_fields) {
+        while (token != NULL && field_index < 13) {
             tokens[field_index++] = token;
             token = strtok(NULL, "$");
         }
@@ -55,7 +52,7 @@ void BrowseFilePatients(char file_name[], char* PatientsData[max_patients][max_f
     fclose(file);
 }
 
-void BrowseFileLivestyle(char file_name[], char* PatientsData[max_patients][max_fields]) {
+void BrowseFileLivestyle(char file_name[], char* PatientsData[5001][13]) {
 
     /* Remplit le tableau PatientsData avec les donnees du fichier livestyle dont le nom
      est passe en argument de la fonction */
@@ -74,13 +71,13 @@ void BrowseFileLivestyle(char file_name[], char* PatientsData[max_patients][max_
     fgets(line, sizeof(line), file); // Lecture de la première ligne du fichier (nom des colonnes), qu'on ignore
 
     // Lire chaque ligne
-    while (fgets(line, sizeof(line), file) && i_line < max_fields) {
-        char* tokens[max_fields];
+    while (fgets(line, sizeof(line), file) && i_line < 13) {
+        char* tokens[13];
         int field_index = 0;
 
         // Découper la ligne en tokens
         char *token = strtok(line, "$");
-        while (token != NULL && field_index < max_fields) {
+        while (token != NULL && field_index < 13) {
             tokens[field_index++] = token;
             token = strtok(NULL, "$");
         }

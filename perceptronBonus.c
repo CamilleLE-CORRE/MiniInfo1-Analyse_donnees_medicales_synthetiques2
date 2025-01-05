@@ -6,9 +6,6 @@
 #include "getData.h"
 #include "perceptron.h"
 
-int max_patients = 5001;
-int max_fields = 13;
-
 typedef struct ResTrainingBonus{
     float w1;
     float w2;
@@ -22,7 +19,7 @@ typedef struct ResTrainingBonus{
 } ResTrainingBonus;
 
 
-float AccuracyBonus(float w1, float w2, float w3, float w4, float w5, float w6, float w7, float b, int* data, int taille_data, char* PatientsData[max_patients][max_fields]){
+float AccuracyBonus(float w1, float w2, float w3, float w4, float w5, float w6, float w7, float b, int* data, int taille_data, char* PatientsData[5001][13]){
 
     /* Calcul le risque des patients determine par le perceptron,
         et renvoie le taux d'erreur de la classification des patients en comparant avec leur risque observe */
@@ -70,7 +67,7 @@ float AccuracyBonus(float w1, float w2, float w3, float w4, float w5, float w6, 
 }
 
 
-ResTrainingBonus perceptronBonus(char* PatientsData[max_patients][max_fields], int* data_train, int length_data_train){
+ResTrainingBonus perceptronBonus(char* PatientsData[5001][13], int* data_train, int length_data_train){
 
     /* Effectue l'entrainement du perceptron pour toutes les caracteristiques et retourne les valeurs calculees,
         ainsi que  l'accuracy obtenue sur les donnees d'entrainement */
@@ -147,7 +144,7 @@ ResTrainingBonus perceptronBonus(char* PatientsData[max_patients][max_fields], i
 }
 
 
-float TestBonus(char* PatientsData[max_patients][max_fields], ResTrainingBonus resPerceptronBonus, int* data_test, int length_data_test){
+float TestBonus(char* PatientsData[5001][13], ResTrainingBonus resPerceptronBonus, int* data_test, int length_data_test){
 
     /* Renvoie l'accuracy calculee sur les donnees de test */
 

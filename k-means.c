@@ -185,17 +185,13 @@ int nouveaux_centroides(Point points[max_patients], Cluster clusters[], Point ce
 
 
 void kmeans(char* PatientsData[max_patients][max_fields]){
-     ////////////////////////////////////////////////////////
+
     // Initialisation de la structure de donnees
-    //char* PatientsData[max_patients][max_fields];
+
     double ConvertedData[max_patients][max_fields];
 
     //memset(PatientsData, 0, sizeof(PatientsData));
     memset(ConvertedData, 0, sizeof(ConvertedData));
-
-    // Remplir le tableau avec les donnees des fichiers patients et livestyle
-    // BrowseFilePatients("patients.pengu", PatientsData);
-    // BrowseFileLivestyle("lifestyle.pengu", PatientsData);
 
     // Conversion du tableau de données en un tableau de données contenant des valeurs numériques
     convertData(PatientsData, ConvertedData);

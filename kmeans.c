@@ -3,11 +3,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include <float.h>  // Pour FLT_MAX et FLT_MIN
-#include "getData2.h"
+#include <float.h>
+#include "getData.h"
 
-int max_patients = 5001;
-int max_fields = 13;
 
 // Structure représentant un point (centroïde)
 typedef struct {
@@ -21,9 +19,9 @@ typedef struct {
 } Cluster;
 
 
-void convertData(char* PatientsData[max_patients][max_fields], double ConvertedData[max_patients][max_fields]) {
-    for (int i = 0; i < max_patients; i++) {
-        for (int j = 0; j < max_fields; j++) {
+void convertData(char* PatientsData[5001][13], double ConvertedData[5001][13]) {
+    for (int i = 0; i < 5001; i++) {
+        for (int j = 0; j < 13; j++) {
             if (PatientsData[i][j] == NULL) {
                 // Si une case est vide, on ignore
                 ConvertedData[i][j] = -1;
@@ -60,10 +58,10 @@ double random_double(double min, double max) {
 }
 
 // Fonction pour initialiser les K centroïdes avec 13 coordonnées
-void init_centroides(Point *centroides, int K, double min[max_fields], double max[max_fields]) {
+void init_centroides(Point *centroides, int K, double min[13], double max[13]) {
     for (int i = 0; i < K; i++) {
         // Commence à 1 pour ne pas prendre en compte l'id
-        for (int j = 1; j < max_fields; j++) {
+        for (int j = 1; j < 13; j++) {
             // Chaque coordonnée est générée dans l'intervalle spécifique de la dimension j
             centroides[i].coordonnees[j] = random_double(min[j], max[j]);
         }
@@ -71,17 +69,17 @@ void init_centroides(Point *centroides, int K, double min[max_fields], double ma
 }
 
 
-void min_max_par_dimension(double data[max_patients][max_fields], double min[max_fields], double max[max_fields]) {
+void min_max_par_dimension(double data[5001][13], double min[13], double max[13]) {
     // Initialiser les min et max pour chaque dimension
-    for (int j = 0; j < max_fields; j++) {
+    for (int j = 0; j < 13; j++) {
         min[j] = DBL_MAX;
         max[j] = -DBL_MAX;
     }
 
     // Parcours de chaque point et chaque dimension
-    for (int i = 0; i < max_patients; i++) {
+    for (int i = 0; i < 5001; i++) {
         // Commence à 1 pour ne pas prendre en compte l'id
-        for (int j = 1; j < max_fields; j++) { 
+        for (int j = 1; j < 13; j++) { 
             // Si la valeur est valide
             if (data[i][j] != -1) {
                 if (data[i][j] < min[j]) {
@@ -97,11 +95,11 @@ void min_max_par_dimension(double data[max_patients][max_fields], double min[max
 
 
 // Fonction pour calculer la distance Euclidienne entre un point et un centroïde
-float distance_euclidienne(Point p, Point c) {
+float distance_euclidienne(Point p, Point c){
     float sum = 0.0;
     int valid_dimensions = 0;
 
-    for (int j = 1; j < max_fields; j++) {
+    for (int j = 1; j < 13; j++) {
         if (p.coordonnees[j] != -1 && c.coordonnees[j] != -1) { // Exclure les dimensions manquantes
             //printf("%f, %f\n", p.coordonnees[i], c.coordonnees[i]);
             sum += (p.coordonnees[j] - c.coordonnees[j]) * (p.coordonnees[j] - c.coordonnees[j]);
@@ -113,14 +111,14 @@ float distance_euclidienne(Point p, Point c) {
 }
 
 
-void assigner_les_points(Point points[max_patients], Point centroids[max_patients], Cluster clusters[max_patients], int K) {
+void assigner_les_points(Point points[5001], Point centroids[5001], Cluster clusters[5001], int K) {
     // Initialiser les clusters
     for (int i = 0; i < K; i++) {
         clusters[i].size = 0;  // Réinitialiser la taille de chaque cluster
     }
 
     // Pour chaque point, on calcule la distance aux K centroïdes et on l'assigne au centroïde le plus proche
-    for (int i = 0; i < max_patients; i++) {
+    for (int i = 0; i < 5001; i++) {
         Point p = points[i];
         int closest_centroid = 0;
         float min_distance = distance_euclidienne(p, centroids[0]);
@@ -140,7 +138,7 @@ void assigner_les_points(Point points[max_patients], Point centroids[max_patient
 }
 
 
-int nouveaux_centroides(Point points[max_patients], Cluster clusters[], Point centroides[], int K, double seuil) {
+int nouveaux_centroides(Point points[5001], Cluster clusters[], Point centroides[], int K, double seuil) {
     // Parcours de chaque cluster
     int stop_iteration = 1;
     for (int i = 0; i < K; i++) {
@@ -158,7 +156,7 @@ int nouveaux_centroides(Point points[max_patients], Cluster clusters[], Point ce
         // Ajouter les coordonnées des points au total
         for (int j = 0; j < nb_points; j++) {
             int indice_Patient = clusters[i].indicesPatient[j]; // Indice du point dans le tableau "points"
-            for (int d = 1; d < max_fields; d++) {
+            for (int d = 1; d < 13; d++) {
                 if (points[indice_Patient].coordonnees[d] != -1) { // Vérifier que la valeur est valide
                     somme[d] += points[indice_Patient].coordonnees[d];
                     compteur[d]++;
@@ -168,7 +166,7 @@ int nouveaux_centroides(Point points[max_patients], Cluster clusters[], Point ce
 
         double moy_intermediaire;
         // Calculer la moyenne pour chaque dimension
-        for (int d = 1; d < max_fields; d++) {
+        for (int d = 1; d < 13; d++) {
             if (compteur[d] > 0) {
                 moy_intermediaire = somme[d] / compteur[d];
                 if (fabs(centroides[i].coordonnees[d] - moy_intermediaire) > seuil) {
@@ -184,18 +182,14 @@ int nouveaux_centroides(Point points[max_patients], Cluster clusters[], Point ce
 }
 
 
-void kmeans(char* PatientsData[max_patients][max_fields]){
-     ////////////////////////////////////////////////////////
+void kmeans(char* PatientsData[5001][13]){
+
     // Initialisation de la structure de donnees
-    //char* PatientsData[max_patients][max_fields];
-    double ConvertedData[max_patients][max_fields];
+
+    double ConvertedData[5001][13];
 
     //memset(PatientsData, 0, sizeof(PatientsData));
     memset(ConvertedData, 0, sizeof(ConvertedData));
-
-    // Remplir le tableau avec les donnees des fichiers patients et livestyle
-    // BrowseFilePatients("patients.pengu", PatientsData);
-    // BrowseFileLivestyle("lifestyle.pengu", PatientsData);
 
     // Conversion du tableau de données en un tableau de données contenant des valeurs numériques
     convertData(PatientsData, ConvertedData);
@@ -204,7 +198,7 @@ void kmeans(char* PatientsData[max_patients][max_fields]){
     // Afficher les premières lignes des données converties pour vérification
     for (int i = 0; i < 10; i++) { // Afficher 5 patients
         printf("Patient %d: ", i + 1);
-        for (int j = 0; j < max_fields; j++) {
+        for (int j = 0; j < 13; j++) {
             printf("%.2f ", ConvertedData[i][j]);
         }
         printf("\n");
@@ -218,7 +212,7 @@ void kmeans(char* PatientsData[max_patients][max_fields]){
     int K = 2;
 
     // Recherche des bornes min et max pour chaque dimension
-    double min[max_fields], max[max_fields];
+    double min[13], max[13];
     min_max_par_dimension(ConvertedData, min, max);
 
     // Initialisation des centroides
@@ -228,16 +222,16 @@ void kmeans(char* PatientsData[max_patients][max_fields]){
     // Affichage des centroïdes générés
     for (int i = 0; i < K; i++) {
         printf("Centroide %d: ( %f", i+1, centroides[i].coordonnees[1]);
-        for (int j = 2; j < max_fields; j++) {
+        for (int j = 2; j < 13; j++) {
             printf(", %f", centroides[i].coordonnees[j]);
         }
         printf(")\n");
     }
 
     ///////// Initialisation : Point B /////////
-    Point points[max_patients];
-    for (int i = 0; i < max_patients; i++) {
-        for (int j = 0; j < max_fields; j++) {
+    Point points[5001];
+    for (int i = 0; i < 5001; i++) {
+        for (int j = 0; j < 13; j++) {
             points[i].coordonnees[j] = ConvertedData[i][j];
         }
     }
@@ -268,7 +262,7 @@ void kmeans(char* PatientsData[max_patients][max_fields]){
             // Affichage des nouveaux centroïdes
             for (int i = 0; i < K; i++) {
                 printf("Centroïde %d : ", i + 1);
-                for (int j = 1; j < max_fields; j++) {
+                for (int j = 1; j < 13; j++) {
                     printf("%.2f ", centroides[i].coordonnees[j]);
                 }
                 printf("\n");

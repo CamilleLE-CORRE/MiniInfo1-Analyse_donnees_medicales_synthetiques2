@@ -1,9 +1,6 @@
 #ifndef PERCEPTRONBONUS_H
 #define PERCEPTRONBONUS_H
 
-int max_patients = 5001;
-int max_fields = 13;
-
 typedef struct ResTrainingBonus{
     float w1;
     float w2;
@@ -16,7 +13,7 @@ typedef struct ResTrainingBonus{
     float accuracy;
 } ResTrainingBonus;
 
-ResTrainingBonus perceptronBonus(char* PatientsData[max_patients][max_fields], int* data_train, int length_data_train);
-float TestBonus(char* PatientsData[max_patients][max_fields], ResTrainingBonus tabResPerceptron, int* data_test, int length_data_test);
+ResTrainingBonus perceptronBonus(char* PatientsData[5001][13], int* data_train, int length_data_train);
+float TestBonus(char* PatientsData[5001][13], ResTrainingBonus tabResPerceptron, int* data_test, int length_data_test);
 
 #endif
