@@ -5,6 +5,9 @@
 #include <string.h>
 #include "getData.h"
 
+int max_patients = 5001;
+int max_fields = 13;
+
 // Declaration du type ResTraining, permettant de renvoyer les différents paramètres
 // utilises et calcules a l'issu de l'entrainement du perceptron
 typedef struct ResTraining{
@@ -70,7 +73,7 @@ int activation(float z){
 }
 
 
-int countRisk(char* PatientsData[MAX_PATIENTS][MAX_FIELDS], int* data, int length_data){
+int countRisk(char* PatientsData[max_patients][max_fields], int* data, int length_data){
 
     /* Renvoie le nombre de patients de data pour lesquels le risque = 1 */
 
@@ -90,7 +93,7 @@ int countRisk(char* PatientsData[MAX_PATIENTS][MAX_FIELDS], int* data, int lengt
 }
 
 
-float Accuracy(float w1, float w2, float b, int c1, int c2, int* data, int taille_data, char* PatientsData[MAX_PATIENTS][MAX_FIELDS]){
+float Accuracy(float w1, float w2, float b, int c1, int c2, int* data, int taille_data, char* PatientsData[max_patients][max_fields]){
 
     /* Calcul le risque des patients a partir des valeurs de w1, w2 et b determines par le perceptron,
         et renvoie le taux d'erreur de la classification des patients en comparant avec leur risque observe */
@@ -131,7 +134,7 @@ float Accuracy(float w1, float w2, float b, int c1, int c2, int* data, int taill
 }
 
 
-ResTraining perceptron(int c1, int c2, char* PatientsData[MAX_PATIENTS][MAX_FIELDS], int* data_train, int length_data_train){
+ResTraining perceptron(int c1, int c2, char* PatientsData[max_patients][max_fields], int* data_train, int length_data_train){
 
     /* Effectue l'entrainement du perceptron pour les champs c1 et c2 et retourne les valeurs de w1, w2 et b calculees,
         ainsi que le taux d'apprentissage nu utilise et l'accuracy obtenue sur les donnees d'entrainement */
@@ -189,7 +192,7 @@ ResTraining perceptron(int c1, int c2, char* PatientsData[MAX_PATIENTS][MAX_FIEL
 }
 
 
-ResTraining* Training(char* PatientsData[MAX_PATIENTS][MAX_FIELDS], int* data_train, int length_data_train){
+ResTraining* Training(char* PatientsData[max_patients][max_fields], int* data_train, int length_data_train){
 
     /* Effectue l'entrainement du perceptron pour obtenir les valeurs de w1, w2 et b pour chaque couple de champs */
 
@@ -216,7 +219,7 @@ ResTraining* Training(char* PatientsData[MAX_PATIENTS][MAX_FIELDS], int* data_tr
 }
 
 
-float* Test(char* PatientsData[MAX_PATIENTS][MAX_FIELDS], ResTraining* tabResPerceptron, int* data_test, int length_data_test){
+float* Test(char* PatientsData[max_patients][max_fields], ResTraining* tabResPerceptron, int* data_test, int length_data_test){
 
     /* Renvoie l'accuracy pour chaque couple de champs */
 
@@ -253,7 +256,7 @@ float* Test(char* PatientsData[MAX_PATIENTS][MAX_FIELDS], ResTraining* tabResPer
 }
 
 
-float* meanAccuracy(int N, char* PatientsData[MAX_PATIENTS][MAX_FIELDS], ResTraining* tabResPerceptron, int* data_test, int length_data_test){
+float* meanAccuracy(int N, char* PatientsData[max_patients][max_fields], ResTraining* tabResPerceptron, int* data_test, int length_data_test){
 
     /* Effectue le test N fois et retourne la moyenne des accuracies de chaque couple de champs
 

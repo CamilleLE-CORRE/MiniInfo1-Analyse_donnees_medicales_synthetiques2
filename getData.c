@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_PATIENTS 5001
-#define MAX_FIELDS 20
+int max_patients = 5001;
+int max_fields = 13;
 
-void BrowseFilePatients(char file_name[], char* PatientsData[MAX_PATIENTS][MAX_FIELDS]) {
+void BrowseFilePatients(char file_name[], char* PatientsData[max_patients][max_fields]) {
 
     /* Remplit le tableau PatientsData avec les donnees du fichier patients
      dont le nom ets passe en argument de la fonction */
@@ -24,19 +24,28 @@ void BrowseFilePatients(char file_name[], char* PatientsData[MAX_PATIENTS][MAX_F
     fgets(line, sizeof(line), file); // Lecture de la première ligne du fichier (nom des colonnes), qu'on ignore
 
     // Lire chaque ligne
-    while (fgets(line, sizeof(line), file) && i_line < MAX_PATIENTS) {
-        char* tokens[MAX_FIELDS];
+    while (fgets(line, sizeof(line), file) && i_line < max_patients) {
+        char* tokens[max_fields];
         int field_index = 0;
 
         // Découper la ligne en tokens
         char *token = strtok(line, "$");
-        while (token != NULL && field_index < MAX_FIELDS) {
+        while (token != NULL && field_index < max_fields) {
             tokens[field_index++] = token;
             token = strtok(NULL, "$");
         }
 
         // Ajouter les données du patient
         for (int i = 0; i < 9; i++) {
+            // Supprimer le '\n' s'il est présent dans le dernier champ
+            if (i == 8) {
+                size_t len = strlen(tokens[i + 1]);
+                if (len > 0 && tokens[i + 1][len - 1] == '\n') {
+                    tokens[i + 1][len - 1] = '\0'; // Supprime le \n
+                }
+            }
+
+            // Copier le token dans le tableau
             PatientsData[i_line][i] = strdup(tokens[i + 1]);
         }
 
@@ -46,7 +55,7 @@ void BrowseFilePatients(char file_name[], char* PatientsData[MAX_PATIENTS][MAX_F
     fclose(file);
 }
 
-void BrowseFileLivestyle(char file_name[], char* PatientsData[MAX_PATIENTS][MAX_FIELDS]) {
+void BrowseFileLivestyle(char file_name[], char* PatientsData[max_patients][max_fields]) {
 
     /* Remplit le tableau PatientsData avec les donnees du fichier livestyle dont le nom
      est passe en argument de la fonction */
@@ -65,13 +74,13 @@ void BrowseFileLivestyle(char file_name[], char* PatientsData[MAX_PATIENTS][MAX_
     fgets(line, sizeof(line), file); // Lecture de la première ligne du fichier (nom des colonnes), qu'on ignore
 
     // Lire chaque ligne
-    while (fgets(line, sizeof(line), file) && i_line < MAX_PATIENTS) {
-        char* tokens[MAX_FIELDS];
+    while (fgets(line, sizeof(line), file) && i_line < max_fields) {
+        char* tokens[max_fields];
         int field_index = 0;
 
         // Découper la ligne en tokens
         char *token = strtok(line, "$");
-        while (token != NULL && field_index < MAX_FIELDS) {
+        while (token != NULL && field_index < max_fields) {
             tokens[field_index++] = token;
             token = strtok(NULL, "$");
         }

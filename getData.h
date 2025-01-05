@@ -1,10 +1,10 @@
 #ifndef GETDATA_H
 #define GETDATA_H
 
-#define MAX_PATIENTS 5001
-#define MAX_FIELDS 20
+int max_patients = 5001;
+int max_fields = 13;
 
-void BrowseFilePatients(char file_name[], char* PatientsData[MAX_PATIENTS][MAX_FIELDS]);
-void BrowseFileLivestyle(char file_name[], char* PatientsData[MAX_PATIENTS][MAX_FIELDS]);
+void BrowseFilePatients(char file_name[], char* PatientsData[max_patients][max_fields]);
+void BrowseFileLivestyle(char file_name[], char* PatientsData[max_patients][max_fields]);
 
 #endif
